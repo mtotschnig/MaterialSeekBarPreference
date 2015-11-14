@@ -1,3 +1,6 @@
+This fork is a migration towards Support library preference-v7.
+It also only displays the value in a TextView, instead of making it editable in an EditText.
+
 ## MaterialSeekBarPreference
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-MaterialSeekBarPreference-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/1756)
