@@ -9,15 +9,12 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.preference.Preference;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.preference.Preference;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -26,24 +23,25 @@ import static android.os.Build.VERSION.SDK_INT;
 /**
  * Created by mrbimc on 30.09.15.
  */
-public class MaterialSeekBarController implements TextWatcher, SeekBar.OnSeekBarChangeListener {
+public class MaterialSeekBarController implements SeekBar.OnSeekBarChangeListener {
 
     private final String TAG = getClass().getName();
 
-    private static final int DEFAULT_CURRENT_VALUE = 50;
+    public static final int DEFAULT_CURRENT_VALUE = 50;
     private static final int DEFAULT_MIN_VALUE = 0;
     private static final int DEFAULT_MAX_VALUE = 100;
     private static final int DEFAULT_INTERVAL = 1;
     private static final String DEFAULT_MEASUREMENT_UNIT = "";
 
     private int mMaxValue;
+    private int mMaxDigits;
     private int mMinValue;
     private int mInterval;
     private int mCurrentValue;
     private String mMeasurementUnit;
 
     private SeekBar mSeekBar;
-    private EditText mSeekBarValue;
+    private TextView mSeekBarValue;
     private TextView mMeasurementUnitView;
 
     private String mTitle;
@@ -82,7 +80,7 @@ public class MaterialSeekBarController implements TextWatcher, SeekBar.OnSeekBar
                 mMinValue = a.getInt(com.pavelsikun.seekbarpreference.R.styleable.SeekBarPreference_msbp_minValue, DEFAULT_MIN_VALUE);
                 mMaxValue = a.getInt(com.pavelsikun.seekbarpreference.R.styleable.SeekBarPreference_msbp_maxValue, DEFAULT_MAX_VALUE);
                 mInterval = a.getInt(com.pavelsikun.seekbarpreference.R.styleable.SeekBarPreference_msbp_interval, DEFAULT_INTERVAL);
-                mCurrentValue = attrs.getAttributeIntValue(android.R.attr.defaultValue, DEFAULT_CURRENT_VALUE);
+                //mCurrentValue = attrs.getAttributeIntValue(android.R.attr.defaultValue, DEFAULT_CURRENT_VALUE);
 
                 mTitle = a.getString(com.pavelsikun.seekbarpreference.R.styleable.SeekBarPreference_msbp_title);
                 mSummary = a.getString(com.pavelsikun.seekbarpreference.R.styleable.SeekBarPreference_msbp_summary);
@@ -95,6 +93,7 @@ public class MaterialSeekBarController implements TextWatcher, SeekBar.OnSeekBar
                 a.recycle();
             }
         }
+        mMaxDigits = (int) Math.log10(mMaxValue) + 1;
     }
 
     public void setOnPersistListener(Persistable persistable) {
@@ -107,9 +106,9 @@ public class MaterialSeekBarController implements TextWatcher, SeekBar.OnSeekBar
         mSeekBar.setMax(mMaxValue - mMinValue);
         mSeekBar.setOnSeekBarChangeListener(this);
 
-        mSeekBarValue = (EditText) view.findViewById(com.pavelsikun.seekbarpreference.R.id.seekbar_value);
-        mSeekBarValue.setText(String.valueOf(mCurrentValue));
-        mSeekBarValue.addTextChangedListener(this);
+        mSeekBarValue = (TextView) view.findViewById(com.pavelsikun.seekbarpreference.R.id.seekbar_value);
+        setPaddedValue(mCurrentValue);
+        //mSeekBarValue.addTextChangedListener(this);
 
         mMeasurementUnitView = (TextView) view.findViewById(com.pavelsikun.seekbarpreference.R.id.measurement_unit);
         mMeasurementUnitView.setText(mMeasurementUnit);
@@ -189,22 +188,26 @@ public class MaterialSeekBarController implements TextWatcher, SeekBar.OnSeekBar
 
         // change accepted, store it
         mCurrentValue = newValue;
-        mSeekBarValue.setText(String.valueOf(newValue));
+        setPaddedValue(newValue);
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        mSeekBarValue.removeTextChangedListener(this);
+        //mSeekBarValue.removeTextChangedListener(this);
     }
 
     @Override
     public void onStopTrackingTouch(@NonNull SeekBar seekBar) {
-        mSeekBarValue.addTextChangedListener(this);
+        //mSeekBarValue.addTextChangedListener(this);
         setCurrentValue(mCurrentValue);
     }
 
+    private void setPaddedValue(int value) {
+        mSeekBarValue.setText(String.format("%0" + mMaxDigits +"d", value));
+    }
+
     //TextWatcher
-    @Override
+/*    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         mSeekBar.setOnSeekBarChangeListener(null);
     }
@@ -227,13 +230,13 @@ public class MaterialSeekBarController implements TextWatcher, SeekBar.OnSeekBar
         setCurrentValue(value);
         mSeekBar.setProgress(mCurrentValue - mMinValue);
         mSeekBar.setOnSeekBarChangeListener(this);
-    }
+    }*/
 
 
     //public methods for manipulating this widget from java:
     public void setCurrentValue(int value) {
         mCurrentValue = value;
-        if(mPersistable != null) mPersistable.onPersist(value);
+        if (mPersistable != null) mPersistable.onPersist(value);
     }
 
     public int getCurrentValue() {

@@ -5,33 +5,27 @@
     android:gravity="center_vertical"
     android:paddingRight="16dp"
     android:orientation="vertical"
-    android:background="@android:drawable/list_selector_background" >
+    android:background="?android:attr/selectableItemBackground" >
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
+    <TextView android:id="@android:id/title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dip"
-        android:layout_marginBottom="6dip">
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:singleLine="true"
+        android:textSize="16sp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:ellipsize="marquee"
+        android:fadingEdge="horizontal"/>
 
-        <TextView android:id="@android:id/title"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:singleLine="true"
-                  android:textAppearance="?android:attr/textAppearanceLarge"
-                  android:textColor="?android:attr/textColorPrimary"
-                  android:ellipsize="marquee"
-                  android:fadingEdge="horizontal" />
-
-        <TextView android:id="@android:id/summary"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_below="@android:id/title"
-                  android:textAppearance="?android:attr/textAppearanceSmall"
-                  android:textColor="?android:attr/textColorSecondary"
-                  android:maxLines="4" />
-
-    </RelativeLayout>
-
+    <TextView
+        android:id="@android:id/summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:textSize="14sp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:maxLines="10"/>
 
     <RelativeLayout
         android:paddingTop="10dp"

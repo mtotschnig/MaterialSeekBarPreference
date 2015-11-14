@@ -4,10 +4,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.preference.Preference;
 import android.support.annotation.NonNull;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
-import android.view.View;
 
 public class SeekBarPreference extends Preference implements Persistable {
 
@@ -40,15 +40,14 @@ public class SeekBarPreference extends Preference implements Persistable {
     }
 
     @Override
-    public void onBindView(@NonNull View view) {
-        super.onBindView(view);
-        mController.onBindView(view);
+    public void onBindViewHolder(@NonNull PreferenceViewHolder viewHolder) {
+        super.onBindViewHolder(viewHolder);
+        mController.onBindView(viewHolder.itemView);
     }
 
     @Override
     protected Object onGetDefaultValue(@NonNull TypedArray ta, int index) {
-        if(mController != null) return ta.getInt(index, mController.getCurrentValue());
-        else return null;
+        return ta.getInt(index, MaterialSeekBarController.DEFAULT_CURRENT_VALUE);
     }
 
     @Override

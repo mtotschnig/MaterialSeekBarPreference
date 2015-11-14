@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.pavelsikun.seekbarpreference"/>
+<manifest package="com.pavelsikun.seekbarpreference">
+    <uses-sdk xmlns:tools="http://schemas.android.com/tools"
+              tools:overrideLibrary="android.support.v14.preference" />
+</manifest>
