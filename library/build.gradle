@@ -14,7 +14,7 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion
-    compile 'com.android.support:preference-v14:' + project.androidSupportLibraryVersion
+    compile 'com.android.support:preference-v14:' + "23.1.1"
 }
 
 ext {
