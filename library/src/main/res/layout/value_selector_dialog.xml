@@ -18,16 +18,6 @@
             android:layout_height="42dp"
             app:srcCompat="@drawable/msbp_math_compass"
             android:layout_gravity="center" />
-
-        <TextView
-            android:id="@+id/dialog_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            android:text="@string/enter_custom_value"/>
     </LinearLayout>
 
     <LinearLayout
@@ -95,7 +85,7 @@
         <Button
             android:id="@+id/btn_apply"
             style="?android:borderlessButtonStyle"
-            android:text="@string/apply"
+            android:text="@android:string/ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
