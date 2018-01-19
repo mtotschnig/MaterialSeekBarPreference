@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -54,6 +55,7 @@ class PreferenceControllerDelegate implements SeekBar.OnSeekBarChangeListener, V
     private ViewStateListener viewStateListener;
     private PersistValueListener persistValueListener;
     private ChangeValueListener changeValueListener;
+    private ViewGroup headerLayout;
 
     interface ViewStateListener {
         boolean isEnabled();
@@ -124,9 +126,10 @@ class PreferenceControllerDelegate implements SeekBar.OnSeekBarChangeListener, V
         if(isView) {
             titleView = (TextView) view.findViewById(android.R.id.title);
             summaryView = (TextView) view.findViewById(android.R.id.summary);
+            headerLayout = (ViewGroup) view.findViewById(R.id.header);
 
-            titleView.setText(title);
-            summaryView.setText(summary);
+            setTitle(title);
+            setSummary(summary);
         }
 
         view.setClickable(false);
@@ -199,7 +202,12 @@ class PreferenceControllerDelegate implements SeekBar.OnSeekBarChangeListener, V
         this.title = title;
         if(titleView != null) {
             titleView.setText(title);
+            updateHeaderVisibility();
         }
+    }
+
+    private void updateHeaderVisibility() {
+        headerLayout.setVisibility((title == null && summary == null) ? View.GONE : View.VISIBLE);
     }
 
     String getSummary() {
@@ -208,8 +216,9 @@ class PreferenceControllerDelegate implements SeekBar.OnSeekBarChangeListener, V
 
     void setSummary(String summary) {
         this.summary = summary;
-        if(seekBarView != null) {
+        if(summaryView != null) {
             summaryView.setText(summary);
+            updateHeaderVisibility();
         }
     }
 
